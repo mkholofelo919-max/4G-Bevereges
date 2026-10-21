@@ -8,14 +8,19 @@ Open `index.html` in a browser. The page uses Google Fonts and illustrative Unsp
 
 ## Deploy to Render
 
-This project is configured as a Render Static Site in `render.yaml`. The build command copies only `index.html` into `public/`, which is the publish directory; project files such as this README and the Blueprint are not published.
+This project is configured as a Render Node web service in `render.yaml`. The build command copies `index.html` into `public/`; the start command serves it on Render's assigned port.
 
 1. Push this folder to a Git provider supported by Render (GitHub, GitLab, or Bitbucket).
 2. In the Render Dashboard, choose **New > Blueprint** and connect the repository.
 3. Review the `4g-beverages-on-the-go` static site and apply the Blueprint.
 4. Wait for the deploy to finish, then use the `onrender.com` URL shown in the service dashboard.
 
-No environment variables are required for this static preview. For a manual Static Site instead, set the build command to `mkdir -p public && cp index.html public/index.html` and the publish directory to `public`.
+For a manual Render Web Service, choose the Node runtime and set:
+
+- Build command: `npm run build`
+- Start command: `npm start`
+
+Render supplies the `PORT` environment variable. No other environment variables are required for the current preview. The service serves the built page from `public/` and does not publish the README or Blueprint as website content.
 
 ## Business configuration
 
@@ -25,7 +30,7 @@ The site currently blocks add-to-cart and checkout because those details are not
 
 ## Before accepting orders or payments
 
-A Render Static Site serves files only; it cannot securely handle orders or verify payments. Before accepting real orders, add a backend service (and persistent order storage) that:
+The current Node service only serves the frontend; it does not handle orders or verify payments. Before accepting real orders, add server-side order handling (and persistent order storage) that:
 
 - Calculates totals and checks current prices and stock on the server, rather than trusting browser values.
 - Creates an order and initiates payment with PayFast or Yoco using credentials stored only in the backend's Render environment variables.

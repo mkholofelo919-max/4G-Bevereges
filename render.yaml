@@ -1,16 +1,7 @@
 services:
   - type: web
     name: 4g-beverages-on-the-go
-    runtime: static
-    buildCommand: mkdir -p public && cp index.html public/index.html
-    staticPublishPath: ./public
-    headers:
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /
